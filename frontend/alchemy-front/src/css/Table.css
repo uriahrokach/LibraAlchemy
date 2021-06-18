@@ -1,0 +1,50 @@
+.table-wrapper {
+    padding: 10px;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    direction: rtl;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 15);
+}
+
+.table th {
+    font-size: 15px;
+    padding: 10px;
+    background-color: black;
+    font: bold;
+    text-align: right;
+}
+
+
+.table tr {
+    text-align: right;
+}
+
+.table tr:nth-of-type(odd) {
+    background-color: #444;;
+}
+
+.table td {
+    border-width: 0px;
+    font-size: 15px;
+    padding: 10px;
+}
+
+.table tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+}
+
+.table tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
+}
+
+.table button {
+    font: bold;
+    font-size: 20px;
+}
