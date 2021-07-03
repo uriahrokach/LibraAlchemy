@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from typing import List, Optional
 from pydantic import BaseModel
+import json
 
 from ..alchemy.potion import set_potion, get_potions_by_name_regex, get_potion_by_name, delete_potion
 from ..alchemy.base import validate

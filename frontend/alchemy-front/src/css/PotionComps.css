@@ -1,0 +1,152 @@
+.normal-button {
+    font-size: 20px;
+    border: none;
+    padding: 10px;
+    background-color: #444;
+    margin: 10px;
+    color: azure;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.5s;
+}
+
+.normal-button:hover {
+    background-color: #666;
+}
+
+.alert-button {
+    font-size: 20px;
+    border: none;
+    padding: 10px;
+    margin: 10px;
+    background-color: #cb0000;
+    color: azure;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.5s;
+}
+
+.alert-button:hover {
+    background-color: #fe0001;
+}
+
+
+.tag {
+    color: azure;
+    border: azure;
+    border-radius: 5px;
+    border-style: solid;
+    padding: 5px;
+    margin: 5px;
+    font-size: 15px;
+    transition: all 0.5s;
+    width: fit-content;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.tag:hover {
+    text-shadow: 0 0 5px#ffff66, 0 0 7px azure;
+    box-shadow: 0 0 5px#ffff66, 0 0 7px azure;
+}
+
+.popup {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 15);   
+    direction: rtl;
+    background-color: orange;
+}
+
+.trash {
+    fill: azure;
+    transition: all 0.5s;
+    cursor: pointer;
+}
+
+.trash:hover {
+    -webkit-filter: drop-shadow( 0 0 5px #ffff66);
+    filter: drop-shadow( 0 0 5px #ffff66);
+}
+
+.input {
+    font-size: 20px;
+    border-radius: 10px;
+    direction: rtl;
+    outline: none;
+    border: none;
+    margin: 15px;
+    padding: 5px;
+}
+
+.text-area {
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 10px;
+    direction: rtl;
+    outline: none;
+    border: none;
+    margin: 15px;
+    padding: 5px;
+}
+
+.checkbox {
+    font-size: 15px;
+    direction: rtl;
+    margin: 8px;
+    text-align: right;
+}
+
+.potion-card {
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+
+    color: azure;
+    background-color: #333;
+    height: fit-content;
+    width: 30%;
+    padding: 10px;
+    text-align: center;
+    z-index: 10;
+    border-radius: 5px;
+
+    animation: fade-in 1s;
+    -webkit-animation: fade-in 1s;
+    direction: rtl;
+}
+
+
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 10;
+
+    animation: fade-in 0.5s;
+    -webkit-animation: fade-in 0.5s;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+
+}
+
+@-webkit-keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

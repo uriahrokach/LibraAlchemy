@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 // import '../../css/Report.css';
+
+import '../../css/PotionComps.css'
 import {ReactComponent as TrashIcon} from '../../icons/trash.svg';
 
 const LabeledElement = (props) => {
@@ -13,63 +15,6 @@ const LabeledElement = (props) => {
             </div>
         </div>
     )
-}
-
-class SearchBar extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.items = this.props.items;
-        this.state = {
-            suggestions: this.props.items,
-            buffer: '',
-        }
-    }
-
-    onSearch = (e) => {
-        const value = e.target.value;
-        let suggestions = [];
-        if (!this.items.includes(value) || this.props.emptyOnClick) {
-            suggestions = this.items.filter(keyphrase => keyphrase.includes(value)); 
-        }
-        this.setState(() => ({ suggestions, buffer: value }))
-    }
-
-    clickItem = (value) => {
-        this.setState(() => ({
-            buffer: '' ? this.props.emptyOnClick : value,
-            suggestions: []
-        }));
-    }
-
-    renderSuggestions() {
-        const { suggestions } = this.state;
-        if (suggestions.length === 0) {
-            return null;
-        }
-
-        return (
-            <ul>
-                {suggestions.map((item) => <li onClick={() => {
-                    this.clickItem(item);
-                    if(this.props.onclick) {
-                        this.props.onclick(item);
-                    }
-                }}>{item}</li>)}
-            </ul>
-        )
-    }
-
-    render() {
-        return (
-            <div>
-                <input value={ this.state.buffer } onChange={this.onSearch} className="input" type="text"/>
-                <div className='search-box'>
-                    {this.renderSuggestions()}
-                </div>
-            </div>
-        );
-    }
 }
 
 const NameTagList = (props) => {
@@ -96,12 +41,11 @@ const DynamicMultipleChoice = (props) => {
         <div>
             {props.choices.map(item => {
                 return (
-                    <div>
-                        <input
-                        type='checkbox'
-                        id={`checkbox-${item}`}
-                        onClick={() => props.setResults(item)}/>
-                        <label for={`checkbox-${item}`} >{item}</label>
+                    <div className='checkbox'>
+                        <label>
+                            <input type='checkbox' onClick={() => props.setResults(item)} checked={props.results.includes(item)}/> 
+                            {`  ${item}`}
+                        </label>
                     </div>
                 )}
             )}
@@ -114,8 +58,8 @@ const DynamicRadioList = (props) => {
         <div onChange={(e) => props.setResults(e.target.value)}>
             {props.choices.map((item) => {
                 return (
-                    <div>
-                        <input type='radio' value={item} name={props.name}/> {item}
+                    <div className='checkbox'>
+                        <input type='radio' value={item} name={props.name} checked={props.result == item}/> {item}
                     </div>
                 )
             })}
@@ -142,39 +86,20 @@ const InputController = (props) => {
             <input 
             onChange={e => {
                 props.setValue(e.target.value); 
-            }} className="input" type="text"/>
+            }} className="input" type="text" placeholder={props.placeholder ? props.placeholder : ''}/>
         </div>
     )
 }
 
-class SearchList extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    addItem(item) {
-        if (!this.props.items.includes(item)){
-            this.props.setItems([...this.props.items, item]);
-        }
-    }
-    
-    removeItem(item) {
-        if (this.props.items.includes(item)){
-            const newItems = this.props.items.filter(key => key !== item);
-            this.props.setItems(newItems);
-        }
-    }
-
-    render() {
-        return (
-            <div>
-                <LabeledElement label={this.props.label}>
-                        <SearchBar items={this.props.choices} onclick={this.addItem.bind(this) } emptyOnClick={true}/>
-                </LabeledElement>
-                {this.props.children}
-            </div>
-        )
-    }
+const TextAreaController = (props) => {
+    return (
+        <div>
+            <textarea 
+            onChange={e => {
+                props.setValue(e.target.value); 
+            }} className="text-area" cols="50" rows="3" placeholder={props.placeholder ? props.placeholder : ''}/>
+        </div>
+    )
 }
 
 const DisplayFilter = (props) => {
@@ -182,4 +107,4 @@ const DisplayFilter = (props) => {
     return (<div>{filteredItems.map(props.display)}</div>);
 }
 
-export {LabeledElement, SearchBar, NameTagList, DynamicMultipleChoice, DynamicRadioList, ListBarController, SearchList, DisplayFilter, InputController}
+export {LabeledElement, NameTagList, DynamicMultipleChoice, DynamicRadioList, ListBarController, DisplayFilter, InputController, TextAreaController}

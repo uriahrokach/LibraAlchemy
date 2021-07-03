@@ -1,0 +1,23 @@
+.create-potion {
+    display: flex;
+    justify-content: space-around;
+    direction: rtl;
+}
+
+.list-card {
+    margin-left: 60px;
+
+}
+
+.input-div {
+    width: 400px;
+    align-items: center;
+    padding-top: 30px;
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+}
+
+.input-div button {
+    margin-top: auto;
+}

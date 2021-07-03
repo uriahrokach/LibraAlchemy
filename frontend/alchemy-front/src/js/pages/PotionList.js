@@ -16,10 +16,12 @@ const PotionList = (props) => {
     }, [asyncPotion.result])
     return (
         <div>
-            <InputController setValue={setRegex}/>
-            {asyncPotion.error && `error: ${asyncPotion.error.message}, ${asyncPotion.error.data}`}
+            <InputController setValue={setRegex} placeholder='שם השיקוי...'/>
+            {asyncPotion.error && `error: ${asyncPotion.error.response.data.detail}`}
             <div>
-                <PotionTable potions={potions}/>
+                {potions.length !== 0 && <PotionTable potions={potions}/>}
+                {potions.length === 0 && <div style={{direction: "rtl"}}>אין שיקויים המכילים את הביטוי "{regex}"</div>}
+                
             </div>
             {asyncPotion.loading && "loading..."}
         </div>

@@ -30,6 +30,14 @@ const createPotion = async (potionName, materials, technic, description) => {
     return response.data;
 }
 
+const getEffects = async (materials, technic) => {
+    const response = await axios.post(`${ENDPOINT}/effect/ingredients`, {         
+        materials: materials,
+        technic: technic
+    });
+    return response.data;
+}
+
 const getPotionByName = async (name) => {
     const response = await axios.get(`${ENDPOINT}/potion/${name}`)
     return response.data;
@@ -46,5 +54,9 @@ const getPotionRegex = async (regex) => {
     return response.data;
 }
 
+const getEffectByName = async (name) => {
+    const response = await axios.get(`${ENDPOINT}/effect?effect=${name}`)
+    return response.data;
+}
 
-export {getMaterials, getTechnics, brewPotions, createPotion, deletePotion, getPotionRegex, getPotionByName};
+export {getMaterials, getTechnics, brewPotions, createPotion, deletePotion, getPotionRegex, getPotionByName, getEffects, getEffectByName};

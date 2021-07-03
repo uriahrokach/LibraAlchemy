@@ -1,26 +1,28 @@
-import React, { useState } from 'react';
-import {ListBarController, DynamicMultipleChoice, DynamicRadioList} from '../components/SearchComponents'; 
-import {getMaterials, getTechnics, brewPotions} from '../utils/ServerUtils';
-import PotionTable from '../components/PotionTable';
+import React, { useState, useEffect } from 'react';
 import { useAsync } from 'react-async-hook';
 
+import {DynamicMultipleChoice, DynamicRadioList} from '../components/SearchComponents'; 
+import { getMaterials, getTechnics, brewPotions, getEffects } from '../utils/ServerUtils';
+import PotionTable from '../components/PotionTable';
+import { EffectTag } from '../components/PotionComponents';
+
+
 import '../../css/Alchemist.css';
+import '../../css/PotionComps.css'
 
 const Alchemist = () => {
   const [materials, setMaterials] = useState([]);
   const [technic, setTechnic] = useState('');
 
-  const [submit, setSubmit] = useState(false)
-
   return (
     <div>
-      <FormPage setSubmit={setSubmit} materials={materials} setMaterials={setMaterials} technic={technic} setTechnic={setTechnic}/>
-      {submit && <PotionsPage materials={materials} technic={technic} setSubmit={setSubmit}/>}
+      <FormPage materials={materials} setMaterials={setMaterials} technic={technic} setTechnic={setTechnic}/>
+      <PotionsPage materials={materials} technic={technic}/>
     </div>
   );
 }
 
-const FormPage = ({setSubmit, materials, setMaterials, technic, setTechnic}) => {
+const FormPage = ({materials, setMaterials, technic, setTechnic}) => {
   const asyncMaterials = useAsync(getMaterials, []);
   const asyncTechnics = useAsync(getTechnics, []);
 
@@ -35,7 +37,6 @@ const FormPage = ({setSubmit, materials, setMaterials, technic, setTechnic}) => 
             <MaterialPage items={asyncMaterials.result} results={materials} setResults={setMaterials}/>
             <TechnicPage items={asyncTechnics.result} technic={technic} setTechnic={setTechnic}/>
           </div>
-          <button onClick={() => setSubmit(true)}>Brew Potion</button>
         </div>
       )}
     </div>
@@ -44,51 +45,51 @@ const FormPage = ({setSubmit, materials, setMaterials, technic, setTechnic}) => 
 
 
 const MaterialPage = ({items, results, setResults}) => {
-  const [matChoices, setMatChoices] = useState(items);
-
   return (
     <div className='list-card'>
-      <ListBarController items={items} setChoices={setMatChoices}/>
-      <DynamicMultipleChoice choices={matChoices} setResults={(item) => {
+      <h3>רכיבים</h3>
+      <DynamicMultipleChoice choices={items} results={results} setResults={(item) => {
         if (results.includes(item)){
           setResults(results.filter(key => key !== item));
         } else {
           setResults([...results, item]);
         }
       }}/>
-      <button onClick={() => setResults([])}>Clean</button>
-      <h3>{results.toString()}</h3>
+      <button className='normal-button' onClick={() => setResults([])}>נקה</button>
     </div>
   );
 }
 
 const TechnicPage = ({items, technic, setTechnic}) => {
-  const [tecChoices, setTecChoices] = useState(items);
-  
   return (
     <div className='list-card'>
-      <ListBarController items={items} setChoices={setTecChoices}/>
-      <DynamicRadioList choices={tecChoices} name='technics' setResults={setTechnic}/>
-      <button onClick={() => setTechnic('')}>Clean</button>
-      <h3>{technic}</h3>
+      <h3>טכניקות</h3>
+      <DynamicRadioList choices={items} result={technic} name='technics' setResults={setTechnic}/>
+      <button className='normal-button' onClick={() => setTechnic('')}>נקה</button>
     </div>
   );
 }
 
 const PotionsPage = ({materials, technic}) => {
   const asyncPotion = useAsync(brewPotions, [materials, technic]);
+  const asyncEffects = useAsync(getEffects, [materials, technic]);
 
   return (
     <div>
-      {asyncPotion.loading && "loading..."}
-      {asyncPotion.error && `error: ${asyncPotion.error.message}, ${asyncPotion.error.data}`}
+      {asyncEffects.error && asyncEffects.error.response.status != 400 && <div> {`error: ${asyncEffects.error.response.data.detail}\n`} </div>}
+      {asyncEffects.result && (<div>{asyncEffects.result.map(effect => <EffectTag effect={effect.name} />)}</div>)}
+
+      {asyncPotion.error && asyncPotion.error.response.status != 400 && <div> {`error: ${asyncPotion.error.response.data.detail}\n`} </div>}
       {asyncPotion.result && (
         <div>
-          <PotionTable potions={asyncPotion.result}/>
+          <PotionTable potions={asyncPotion.result} deletePotion/>
         </div>
       )}
+      {asyncEffects.loading && asyncPotion.loading && "loading..."}
+
     </div>
   );
 }
 
 export default Alchemist;
+export {MaterialPage, TechnicPage};

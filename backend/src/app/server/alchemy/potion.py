@@ -59,7 +59,7 @@ def delete_potion(name: str) -> None:
     try:
         potion = Potion.objects.get(name=name)
     except DoesNotExist:
-        raise KeyError(f'Potion {name} does not exist')
+        raise KeyError(f"Potion {name} does not exist")
 
     potion.delete()
 
