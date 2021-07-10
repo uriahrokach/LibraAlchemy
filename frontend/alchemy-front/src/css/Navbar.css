@@ -42,11 +42,13 @@
     cursor: pointer;
     text-shadow: inherit;
     -webkit-transition: text-shadow 0.2s ease-in-out;
+    transition: text-shadow 0.2s ease-in-out;
 }
 
 .navbar-nav a:hover {
     text-shadow: 0 0 5px#ffff66, 0 0 7px #fff;
     -webkit-transition: text-shadow 0.2s ease-in-out;
+    transition: text-shadow 0.2s ease-in-out;
 }
 
 .navbar-main {
@@ -58,6 +60,7 @@
     width: 11%;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 5px 0 5px -2px rgba(0, 0, 0, 15);   
 }
 
 .navbar-main::after {
@@ -66,9 +69,10 @@
     width: 25px;
     position: absolute;
     background-color: #282828;
-    top: 30%;
+    top: 34%;
     right: -12px;
     transform: rotate(135deg);
+    box-shadow: -5px -5px 5px -2px rgba(0, 0, 0, 15);  
   }
 
 .navbar-icon {

@@ -6,5 +6,5 @@ def connect_to_db():
     """
     Connects to the mongodb database using the configuration connection string
     """
-    conn_str = get_config()['DB_CONFIG']
+    conn_str = get_config().db.connection
     db.connect(host=conn_str)

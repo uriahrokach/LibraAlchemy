@@ -11,7 +11,7 @@ def get_materials() -> List[str]:
 
     :return: a list containing the materials of the alchemy system.
     """
-    return config['MATERIALS']
+    return config.alchemy.materials
 
 
 def get_technics() -> List[str]:
@@ -20,7 +20,7 @@ def get_technics() -> List[str]:
 
     :return: a list containing the materials of the alchemy system.
     """
-    return config['TECHNICS']
+    return config.alchemy.technics
 
 
 def validate(materials: List[str] = None, technic: str = None) -> None:
@@ -36,8 +36,8 @@ def validate(materials: List[str] = None, technic: str = None) -> None:
             raise ValueError(f'Number of materials must be between {POTION_MATERIAL_MIN} and {POTION_MATERIAL_MAX}')
 
         for material in materials:
-            if material not in config['MATERIALS']:
+            if material not in config.alchemy.materials:
                 raise ValueError(f'Material {material} is not a valid material')
 
-    if technic and technic not in config['TECHNICS']:
+    if technic and technic not in config.alchemy.technics:
         raise ValueError(f'Technic {technic} is not a valid technic')

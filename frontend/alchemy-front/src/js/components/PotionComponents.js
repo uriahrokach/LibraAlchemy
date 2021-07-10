@@ -51,7 +51,7 @@ const EffectTag = (props) => {
                 {effectsData.error && effectsData.error.response.data.detail}
                 {effectsData.result && effectsData.result.map(ingredient => {
                     return(
-                        <div>
+                        <div className='popup-div'>
                             {`מרכיבים: ${ingredient.materials.join(', ')}`}
                             <br />
                             {`טכניקה: ${ingredient.technic}`}

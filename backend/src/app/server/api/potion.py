@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException
 from typing import List, Optional
 from pydantic import BaseModel
-import json
 
-from ..alchemy.potion import set_potion, get_potions_by_name_regex, get_potion_by_name, delete_potion
+from ..alchemy.potion import set_potion, get_potions_by_name_regex, get_potion_by_name, delete_potion, \
+    validate_str_field
 from ..alchemy.base import validate
 
 route = APIRouter()
@@ -24,6 +24,8 @@ class PotionSet(BaseModel):
 def api_set_potion(potion: PotionSet):
     try:
         validate(potion.materials, potion.technic)
+        validate_str_field(potion.name, 'Potion name')
+        validate_str_field(potion.description, 'Potion Description')
         set_potion(potion.name, potion.materials, potion.technic, potion.description)
         return f'Potion {potion.name} was created successfully.'
     except ValueError as e:

@@ -1,30 +1,23 @@
+from types import SimpleNamespace
+from functools import lru_cache
+import json
 import os
 
-TEST_CONFIG = {
-    'MATERIALS': ['לוטוס דם', 'דרדר דרקון', 'פטריות מעמקים', 'תפרחת השעווה', 'שורש אלף אצילי', 'לילית שחורה', 'קשקשי לטאת ענק'],
-    'TECHNICS': ['בישול', 'ייבוש וכתישה', 'התססה', 'חליטה'],
-    'DB_CONFIG': 'mongodb://localhost:27017/alchemy_test'
-}
 
-PROD_CONFIG = {
-    'MATERIALS': [],
-    'TECHNICS': [],
-    'DB_CONFIG': 'mongodb://localhost:27017/alchemy_prod'
-}
-
-
-def get_config(env: str = None):
+@lru_cache(maxsize=1)
+def get_config():
     """
     Configs the alchemy system configurations.
 
-    :param env: the environment to run. Defaults to the environment variable ENV. or the test env.
     :return: The config dictionary.
     """
-    if not env:
-        try:
-            env = os.environ['ENV']
-        except KeyError:
-            env = None
-    if not env or env == 'test':
-        return TEST_CONFIG
-    return PROD_CONFIG
+    try:
+        env = os.environ['CONF']
+    except KeyError:
+        env = 'server/config/develop.json'
+
+    with open(env, 'r', encoding='utf8') as conf_file:
+        config = conf_file.read()
+    config = json.loads(config, object_hook=lambda d: SimpleNamespace(**d))
+
+    return config

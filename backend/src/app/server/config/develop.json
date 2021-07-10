@@ -1,0 +1,14 @@
+{
+  "alchemy": {
+    "materials": ["לוטוס דם", "דרדר דרקון", "פטריות מעמקים", "תפרחת השעווה", "שורש אלף אצילי", "לילית שחורה", "קשקשי לטאת ענק"],
+    "technics":  ["בישול", "ייבוש וכתישה", "התססה", "חליטה"]
+  },
+  "server": {
+    "address": "localhost",
+    "port": 5000,
+    "CORS": ["http://localhost:3000"]
+  },
+  "db": {
+    "connection": "mongodb://localhost:27017/alchemy_test"
+  }
+}

@@ -97,7 +97,7 @@ const TextAreaController = (props) => {
             <textarea 
             onChange={e => {
                 props.setValue(e.target.value); 
-            }} className="text-area" cols="50" rows="3" placeholder={props.placeholder ? props.placeholder : ''}/>
+            }} className="text-area" cols="32" rows="3" placeholder={props.placeholder ? props.placeholder : ''}/>
         </div>
     )
 }

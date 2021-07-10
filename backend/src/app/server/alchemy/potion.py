@@ -64,3 +64,9 @@ def delete_potion(name: str) -> None:
     potion.delete()
 
 
+def validate_str_field(value: str, field: str):
+    if value == '':
+        raise ValueError(f'{field} cannot be empty.')
+    if value[0] == ' ' or value[-1] == ' ':
+        raise ValueError(f'{field} cannot start or end with a space.')
+

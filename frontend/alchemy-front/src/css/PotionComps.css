@@ -67,6 +67,17 @@
     filter: drop-shadow( 0 0 5px #ffff66);
 }
 
+.popup-div {
+    border-bottom-style: solid;
+    border-bottom-width: 3px;
+    border-color: #444;
+    padding: 5px;
+}
+
+.popup-div:last-child {
+    border-bottom-width: 0px;
+}
+
 .input {
     font-size: 20px;
     border-radius: 10px;
@@ -96,7 +107,6 @@
 }
 
 .potion-card {
-
     position: absolute;
     left: 0;
     right: 0;
@@ -105,7 +115,7 @@
     margin: auto;
 
     color: azure;
-    background-color: #333;
+    background-color: #666;
     height: fit-content;
     width: 30%;
     padding: 10px;
