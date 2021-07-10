@@ -2,7 +2,7 @@ from mongoengine.errors import DoesNotExist, NotUniqueError
 from typing import List
 import re
 
-from ...database.models import Potion
+from database.models import Potion
 from .effects import get_effects_by_ingredients
 
 

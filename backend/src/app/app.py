@@ -2,12 +2,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
-from backend.src.app.server.api.base import route as base_router
-from backend.src.app.server.api.brew import route as brew_router
-from backend.src.app.server.api.effects import route as effects_router
-from backend.src.app.server.api.potion import route as potion_router
-from backend.src.app.server.utils.config import get_config
-from backend.src.app.database.utils import connect_to_db
+from server.api.base import route as base_router
+from server.api.brew import route as brew_router
+from server.api.effects import route as effects_router
+from server.api.potion import route as potion_router
+from server.utils.config import get_config
+from database.utils import connect_to_db
 
 
 app = FastAPI()

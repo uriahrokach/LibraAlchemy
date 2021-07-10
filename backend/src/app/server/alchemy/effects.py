@@ -2,7 +2,7 @@ from mongoengine.errors import DoesNotExist
 from itertools import combinations
 from typing import List
 
-from ...database.models import Effect
+from database.models import Effect
 from ..utils.consts import TECHNIC_MATERIAL_LENGTH
 
 

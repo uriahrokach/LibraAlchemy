@@ -1,7 +1,7 @@
 from typing import List
 from itertools import combinations
 
-from ...database.models import Potion, Effect
+from database.models import Potion, Effect
 from .effects import get_effects_by_ingredients
 
 

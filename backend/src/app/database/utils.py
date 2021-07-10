@@ -1,4 +1,4 @@
-from ..server.utils.config import get_config
+from server.utils.config import get_config
 from .models import db
 
 

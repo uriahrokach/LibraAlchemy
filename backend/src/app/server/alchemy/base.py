@@ -1,6 +1,6 @@
 from typing import List
-from backend.src.app.server.utils.config import get_config
-from backend.src.app.server.utils.consts import POTION_MATERIAL_MIN, POTION_MATERIAL_MAX
+from ..utils.config import get_config
+from ..utils.consts import POTION_MATERIAL_MIN, POTION_MATERIAL_MAX
 
 config = get_config()
 
