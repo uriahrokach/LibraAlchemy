@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import '../../css/Report.css';
 
 import '../../css/PotionComps.css'
 import {ReactComponent as TrashIcon} from '../../icons/trash.svg';

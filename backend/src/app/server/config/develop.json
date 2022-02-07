@@ -6,7 +6,7 @@
   "server": {
     "address": "localhost",
     "port": 5000,
-    "CORS": ["http://localhost:3000"]
+    "CORS": ["*"]
   },
   "db": {
     "connection": "mongodb://localhost:27017/alchemy_test"
