@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { PotionDeleter, EffectTag} from './PotionComponents';
 
 import '../../css/Table.css'

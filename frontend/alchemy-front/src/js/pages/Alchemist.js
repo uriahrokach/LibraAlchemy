@@ -5,6 +5,7 @@ import {DynamicMultipleChoice, DynamicRadioList} from '../components/SearchCompo
 import { getMaterials, getTechnics, brewPotions, getEffects } from '../utils/ServerUtils';
 import PotionTable from '../components/PotionTable';
 import { EffectTag } from '../components/PotionComponents';
+import { PotionMaker } from '../components/PotionComponents';
 
 
 import '../../css/Alchemist.css';
@@ -74,19 +75,28 @@ const PotionsPage = ({materials, technic}) => {
   const asyncPotion = useAsync(brewPotions, [materials, technic]);
   const asyncEffects = useAsync(getEffects, [materials, technic]);
 
+  const [create, setCreate] = useState(false)
   return (
     <div>
+      {create && <PotionMaker setActive={setCreate} materials={materials} technic={technic}/>}
       {asyncEffects.error && asyncEffects.error.response.status != 400 && <div> {`error: ${asyncEffects.error.response.data.detail}\n`} </div>}
       {asyncEffects.result && (<div>{asyncEffects.result.map(effect => <EffectTag effect={effect.name} />)}</div>)}
 
       {asyncPotion.error && asyncPotion.error.response.status != 400 && <div> {`error: ${asyncPotion.error.response.data.detail}\n`} </div>}
-      {asyncPotion.result && (
+      {asyncPotion.result && asyncPotion.result.length !== 0 && (
         <div>
           <PotionTable potions={asyncPotion.result} deletePotion/>
         </div>
       )}
+      {asyncPotion.result && asyncPotion.result.length === 0 && (
+        <div>
+          <br />
+          <div style={{direction: "rtl"}}>לא קיים שיקוי עם האפקטים האלו.</div>
+          <br />
+          <button className='normal-button' onClick={() => {setCreate(true);}}>צור שיקוי</button>
+        </div>
+      )}
       {asyncEffects.loading && asyncPotion.loading && "loading..."}
-
     </div>
   );
 }

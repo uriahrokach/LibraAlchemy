@@ -1,12 +1,15 @@
+import React, {useState} from 'react';
+
 import ReactDOM from 'react-dom';
 import { useAsync } from 'react-async-hook';
 import { toast } from 'react-toastify';
 import Tippy from '@tippy.js/react';
 
-import {deletePotion, getEffectByName } from '../utils/ServerUtils';
+import { InputController, TextAreaController } from './SearchComponents';
+import {deletePotion, getEffectByName, createPotion, getEffects } from '../utils/ServerUtils';
+
 import '../../css/PotionComps.css';
 import 'tippy.js/dist/tippy.css';
-import 'tippy.js/themes/light.css'
 
 const Modal = (props) => {
     return ReactDOM.createPortal(
@@ -41,6 +44,36 @@ const PotionDeleter = (props) => {
     )
 }
 
+const PotionMaker = (props) => {
+    const [name, setName] = useState('');
+    const [desc, setDesc] = useState('');
+    const asyncEffects = useAsync(getEffects, [props.materials, props.technic]);
+
+    return (
+        <Modal>
+            <h3>יצירת שיקוי</h3>
+            {asyncEffects.error && asyncEffects.error.response.status != 400 && <div> {`error: ${asyncEffects.error.response.data.detail}\n`} </div>}
+            {asyncEffects.result && (<div>{asyncEffects.result.map(effect => <EffectTag effect={effect.name} />)}</div>)}
+            
+            <InputController setValue={setName} placeholder='שם השיקוי...' />
+            <TextAreaController setValue={setDesc} placeholder='תיאור...' />
+
+            <div>
+                <button className='alert-button' onClick={async () => {
+                    try{
+                        const response = await createPotion(name, props.materials, props.technic, desc);
+                        toast.success(response);
+                        props.setActive(false);
+                    } catch (error) {
+                        toast.error(error.response.data.detail);
+                    }
+                } }>צור שיקוי</button>
+                <button className='normal-button' onClick={() => { props.setActive(null) }}>ביטול</button>
+            </div>
+        </Modal>
+    )
+}
+
 const EffectTag = (props) => {
     const effectsData = useAsync(getEffectByName, [props.effect])
 
@@ -66,4 +99,4 @@ const EffectTag = (props) => {
 }
 
 
-export { PotionDeleter, EffectTag }
+export { PotionDeleter, EffectTag, PotionMaker }

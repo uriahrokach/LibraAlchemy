@@ -21,7 +21,6 @@ const PotionList = (props) => {
             <div>
                 {potions.length !== 0 && <PotionTable potions={potions}/>}
                 {potions.length === 0 && <div style={{direction: "rtl"}}>אין שיקויים המכילים את הביטוי "{regex}"</div>}
-                
             </div>
             {asyncPotion.loading && "loading..."}
         </div>
