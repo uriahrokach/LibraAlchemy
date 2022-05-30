@@ -1,9 +1,13 @@
 from mongoengine.errors import DoesNotExist, NotUniqueError
+from itertools import combinations
 from typing import List
 import re
 
 from database.models import Potion
 from .effects import get_effects_by_ingredients
+
+from ..utils.config import get_config
+from ..utils.consts import TECHNIC_MATERIAL_LENGTH
 
 
 def set_potion(name: str, materials: List[str], technic: str, description: str) -> None:
@@ -69,4 +73,3 @@ def validate_str_field(value: str, field: str):
         raise ValueError(f'{field} cannot be empty.')
     if value[0] == ' ' or value[-1] == ' ':
         raise ValueError(f'{field} cannot start or end with a space.')
-

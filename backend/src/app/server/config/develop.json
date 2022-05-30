@@ -4,7 +4,7 @@
     "technics":  ["בישול", "ייבוש וכתישה", "התססה", "חליטה"]
   },
   "server": {
-    "address": "localhost",
+    "address": "0.0.0.0",
     "port": 5000,
     "CORS": ["*"]
   },
