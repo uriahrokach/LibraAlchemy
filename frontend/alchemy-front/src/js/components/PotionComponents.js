@@ -93,7 +93,7 @@ const EffectTag = (props) => {
                 })}
             </span>
             }>
-            <div className='tag'>{props.effect}</div>
+            <div className={ 'enhance-tag' ? props.enhance : 'tag' }>{props.effect}</div>
         </Tippy>
     )
 }

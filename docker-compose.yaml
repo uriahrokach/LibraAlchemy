@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  db:
+    image: mongo:latest
+    restart: always
+    volumes:
+      - data:/data/db
+    ports:
+      - 27017
+
+  backend:
+    restart: always
+    build: ./backend
+    image: libra-alchemy/backend:0.0.1
+    ports:
+      - 5000:5000
+
+  frontend:
+    restart: always
+    build: ./frontend/alchemy-front
+    image: libra-alchemy/frontend:0.0.1
+    ports:
+      - 8080:80
+
+networks:
+  default:
+    external:
+      name: alchemy
+
+volumes:
+  data:
+    external: true
