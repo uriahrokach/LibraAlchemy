@@ -5,9 +5,9 @@ services:
     image: mongo:latest
     restart: always
     volumes:
-      - data:/data/db
+      - C:\mongodb\data\db:/data/db
     ports:
-      - 27017
+      - 27017:27017
 
   backend:
     restart: always
@@ -22,6 +22,8 @@ services:
     image: libra-alchemy/frontend:0.0.1
     ports:
       - 8080:80
+    volumes:
+      - C:\Users\uriah\PycharmProjects\libra_alchemy\frontend\alchemy-front\build:/var/www/html
 
 networks:
   default:

@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import Tippy from '@tippy.js/react';
 
 import { InputController, TextAreaController } from './SearchComponents';
-import {deletePotion, getEffectByName, createPotion, getEffects } from '../utils/ServerUtils';
+import { deletePotion, getEffectByName, createPotion, getEffects } from '../utils/ServerUtils';
 
 import '../../css/PotionComps.css';
 import 'tippy.js/dist/tippy.css';
@@ -75,14 +75,14 @@ const PotionMaker = (props) => {
 }
 
 const EffectTag = (props) => {
-    const effectsData = useAsync(getEffectByName, [props.effect])
+    const effectsData = useAsync(getEffectByName, [props.effect]);
 
     return (
         <Tippy className='popup' content={
             <span>
                 {effectsData.loading && 'loading...'}
                 {effectsData.error && effectsData.error.response.data.detail}
-                {effectsData.result && effectsData.result.map(ingredient => {
+                {effectsData.result && effectsData.result.reactions.map(ingredient => {
                     return(
                         <div className='popup-div'>
                             {`מרכיבים: ${ingredient.materials.join(', ')}`}
@@ -91,12 +91,27 @@ const EffectTag = (props) => {
                         </div>
                     )
                 })}
+                {effectsData.result && effectsData.result.enhance && <div className='popup-enhance'><b>אפקט מיוחד: {effectsData.result.enhanceDescription}</b></div>}
             </span>
             }>
-            <div className={ 'enhance-tag' ? props.enhance : 'tag' }>{props.effect}</div>
+            <div className={ effectsData.result && effectsData.result.enhance ? 'enhance-tag' : 'tag' }>{props.effect}</div>
         </Tippy>
     )
 }
 
 
-export { PotionDeleter, EffectTag, PotionMaker }
+
+const PotionTypeTag = (props) => {
+    return (
+        <Tippy className='popup' content={
+            <span>
+                <div>תיאור: {props.description}</div>
+                <div>{props.effects.map(effect => effect.name).join(', ')}</div>
+            </span>
+        }>
+            <div className="tag">{props.name}</div>
+        </Tippy>
+    )
+}
+
+export { PotionDeleter, EffectTag, PotionMaker, PotionTypeTag }

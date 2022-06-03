@@ -2,7 +2,7 @@ import pandas as pd
 from argparse import ArgumentParser
 from typing import List
 from mongoengine.errors import ValidationError, DoesNotExist
-from models import Effect, Reaction, db
+from .database.models import Effect, Reaction, db
 import csv
 
 

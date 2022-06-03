@@ -50,7 +50,7 @@
     box-shadow: 0 0 5px#ffff66, 0 0 7px azure;
 }
 
-.tag {
+.enhance-tag {
     color: #c94c4c;
     border: #c94c4c;
     border-radius: 5px;
@@ -64,9 +64,9 @@
     cursor: pointer;
 }
 
-.tag:hover {
-    text-shadow: 0 0 5px#ffff66, 0 0 7px #c94c4c;
-    box-shadow: 0 0 5px#ffff66, 0 0 7px #c94c4c;
+.enhance-tag:hover {
+    text-shadow: 0 0 5px#ff5c5c, 0 0 7px #c94c4c;
+    box-shadow: 0 0 5px#ff5c5c, 0 0 7px #c94c4c;
 }
 
 .popup {
@@ -89,12 +89,17 @@
 .popup-div {
     border-bottom-style: solid;
     border-bottom-width: 3px;
-    border-color: #444;
+    border-color: azure;
     padding: 5px;
 }
 
 .popup-div:last-child {
     border-bottom-width: 0px;
+}
+
+.popup-enhance {
+    font-style: bold;
+    padding: 5px;
 }
 
 .input {

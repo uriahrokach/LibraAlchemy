@@ -1,32 +1,17 @@
 from itertools import combinations
-from typing import List
-from mongoengine import NotUniqueError, DoesNotExist
+from typing import List, Dict
+from mongoengine import DoesNotExist
 
-from ...database.models import PotionType, Effect
-
-
-def create_type(name: str, effects: List[str], description: str) -> None:
-    effects = [Effect.objects.get(name=effect) for effect in effects]
-    effects = sorted(effects, key=lambda effect: effect.id)
-    potion_type = PotionType(name=name, effects=effects, description=description)
-    try:
-        potion_type.save()
-    except NotUniqueError:
-        raise ValueError(f'PotionType {name} already exists.')
+from database.models import PotionType, Effect, Potion
 
 
-def delete_type(name: str) -> None:
+def get_types_names() -> List[str]:
     """
-    Deletes a potion type from the DB.
+    Fetches a list of all exiting potion types names.
 
-    :param name: The name of the potion to delete.
+    :return: The names of all potion types.
     """
-    try:
-        potion_type = PotionType.objects.get(name=name)
-    except DoesNotExist:
-        raise KeyError(f"PotionType {name} does not exist")
-
-    potion_type.delete()
+    return [p_type.name for p_type in PotionType.objects]
 
 
 def get_type_by_name(name: str) -> dict:
@@ -44,13 +29,36 @@ def get_type_by_name(name: str) -> dict:
     return potion_type.json()
 
 
-def get_types_by_effects(effects: List[str]) -> List[PotionType]:
-    effects = [Effect.objects.get(name=effect) for effect in effects]
+def get_types_by_effects(effects: List[str]) -> List[Dict[str, str]]:
+    """
+    Returns all potion types created by correlating effects.
+
+    :param effects: The effects to check the potion types of.
+    :return: ALl potion types that correlate to the given effects.
+    """
+    try:
+        effects = [Effect.objects.get(name=effect) for effect in effects]
+    except DoesNotExist:
+        raise KeyError(f'One or more of effects {",".join(effects)} does not exist.')
 
     potion_types = []
     for effect_a, effect_b in combinations(effects, 2):
-        new_potion_types = list(set(PotionType.objects(effects=effect_a)) & set(PotionType.objects(effects=effect_a)))
-        potion_types += new_potion_types
+        new_potion_type = PotionType.objects(effects__all=[effect_a, effect_b])
+        potion_types += new_potion_type
 
-    return potion_types
+    return [p_type.json() for p_type in potion_types]
+
+
+def get_types_by_potion(potion: str) -> List[Dict[str, str]]:
+    """
+    Returns the potion types of a potion.
+
+    :param potion: The name of the potion.
+    :return:  ALl potion types that correlate to the given potion.
+    """
+    try:
+        potion = Potion.objects.get(name=potion)
+    except DoesNotExist:
+        raise KeyError(f'Potion {potion} does not exist.')
+    return get_types_by_effects([effect.name for effect in potion.effects])
 
