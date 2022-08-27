@@ -50,6 +50,25 @@
     box-shadow: 0 0 5px#ffff66, 0 0 7px azure;
 }
 
+.enhance-tag {
+    color: #c94c4c;
+    border: #c94c4c;
+    border-radius: 5px;
+    border-style: solid;
+    padding: 5px;
+    margin: 5px;
+    font-size: 15px;
+    transition: all 0.5s;
+    width: fit-content;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.enhance-tag:hover {
+    text-shadow: 0 0 5px#ff5c5c, 0 0 7px #c94c4c;
+    box-shadow: 0 0 5px#ff5c5c, 0 0 7px #c94c4c;
+}
+
 .popup {
     box-shadow: 0 0 20px rgba(0, 0, 0, 15);   
     direction: rtl;
@@ -70,12 +89,17 @@
 .popup-div {
     border-bottom-style: solid;
     border-bottom-width: 3px;
-    border-color: #444;
+    border-color: azure;
     padding: 5px;
 }
 
 .popup-div:last-child {
     border-bottom-width: 0px;
+}
+
+.popup-enhance {
+    font-style: bold;
+    padding: 5px;
 }
 
 .input {

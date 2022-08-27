@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useAsync } from 'react-async-hook';
 
 import {DynamicMultipleChoice, DynamicRadioList} from '../components/SearchComponents'; 
-import { getMaterials, getTechnics, brewPotions, getEffects } from '../utils/ServerUtils';
+import { getMaterials, getTechnics, brewPotions, getEffects, getPotionTypesByEffects } from '../utils/ServerUtils';
 import PotionTable from '../components/PotionTable';
-import { EffectTag } from '../components/PotionComponents';
+import { EffectTag, PotionTypeTag } from '../components/PotionComponents';
 import { PotionMaker } from '../components/PotionComponents';
 
 
@@ -74,14 +74,34 @@ const TechnicPage = ({items, technic, setTechnic}) => {
 const PotionsPage = ({materials, technic}) => {
   const asyncPotion = useAsync(brewPotions, [materials, technic]);
   const asyncEffects = useAsync(getEffects, [materials, technic]);
+  
+  const [currentEffects, setCurrentEffects ] = useState([])
+  useEffect(() => {
+    setCurrentEffects(asyncEffects.result && asyncEffects.result.map(effect => effect.name))
+  }, [asyncEffects.result])
+  console.log(currentEffects)
+  const asyncPotionType = useAsync(getPotionTypesByEffects, [currentEffects])
 
   const [create, setCreate] = useState(false)
   return (
     <div>
       {create && <PotionMaker setActive={setCreate} materials={materials} technic={technic}/>}
+      
       {asyncEffects.error && asyncEffects.error.response.status != 400 && <div> {`error: ${asyncEffects.error.response.data.detail}\n`} </div>}
-      {asyncEffects.result && (<div>{asyncEffects.result.map(effect => <EffectTag effect={effect.name} />)}</div>)}
-
+      {asyncEffects.result && (<div>
+        <div>השפעות</div>
+        <br />
+        {asyncEffects.result.map(effect => <EffectTag effect={effect.name} />)}
+      </div>)}
+      <br />
+       {asyncPotionType.error && asyncPotionType.error.response.status != 422 && <div> {`error: ${asyncPotionType.error.response.data.detail}\n`} </div>}
+      {asyncPotionType.result && (<div>
+        <div> סוגי שיקויים </div>
+        <br/>
+        {asyncPotionType.result.map(potionType => <PotionTypeTag {...potionType} />)}
+        <br />
+      </div>)}
+      
       {asyncPotion.error && asyncPotion.error.response.status != 400 && <div> {`error: ${asyncPotion.error.response.data.detail}\n`} </div>}
       {asyncPotion.result && asyncPotion.result.length !== 0 && (
         <div>
@@ -93,7 +113,10 @@ const PotionsPage = ({materials, technic}) => {
           <br />
           <div style={{direction: "rtl"}}>לא קיים שיקוי עם האפקטים האלו.</div>
           <br />
-          <button className='normal-button' onClick={() => {setCreate(true);}}>צור שיקוי</button>
+          <div>
+            <button className='normal-button' onClick={() => {setCreate(true);}}>צור שיקוי</button>
+            <button className='normal-button' onClick={() => {setCreate(true);}}>אבחן שיקוי</button>
+          </div>
         </div>
       )}
       {asyncEffects.loading && asyncPotion.loading && "loading..."}

@@ -1,14 +1,14 @@
 {
   "alchemy": {
-    "materials": ["לוטוס דם", "דרדר דרקון", "פטריות מעמקים", "תפרחת השעווה", "שורש אלף אצילי", "לילית שחורה", "קשקשי לטאת ענק"],
+    "materials":  ["פחם", "מלח", "זכוכית וולקנית", "כסף", "לוטוס נהרות", "אספסת הכתרים", "חשופית השממה", "שרף"],
     "technics":  ["בישול", "ייבוש וכתישה", "התססה", "חליטה"]
   },
   "server": {
-    "address": "localhost",
+    "address": "0.0.0.0",
     "port": 5000,
     "CORS": ["*"]
   },
   "db": {
-    "connection": "mongodb://localhost:27017/alchemy_test"
+    "connection": "mongodb://libra_alchemy-db-1:27017/alchemy_test"
   }
 }

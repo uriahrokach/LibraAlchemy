@@ -1,23 +1,23 @@
 from mongoengine.errors import DoesNotExist
 from itertools import combinations
-from typing import List
+from typing import List, Union, Dict
 
-from database.models import Effect
+from database.models import Effect, Reaction
 from ..utils.consts import TECHNIC_MATERIAL_LENGTH
 
 
-def get_effects_by_name(name: str) -> List[dict]:
+def get_effects_by_name(name: str) -> Dict[str, str]:
     """
     Receives a name of an effect, than gets the whole effect.
 
     :param name: The name of the effect.
     :return: The effect.
     """
-    effects = Effect.objects(name=name)
-    if len(effects) == 0:
-        raise KeyError(f'Effect {name} does not exist')
-
-    return [effect.json() for effect in effects]
+    try:
+        effect = Effect.objects.get(name=name)
+        return effect.json()
+    except DoesNotExist:
+        raise KeyError(f'Effect {name} doesn\'t exist.')
 
 
 def get_effects_by_ingredients(materials: List[str], technic: str) -> List[Effect]:
@@ -29,11 +29,12 @@ def get_effects_by_ingredients(materials: List[str], technic: str) -> List[Effec
 
     :return: a list of the created effects.
     """
-    reactions = []
+    effects: List[Effect] = []
     for materials in combinations(set(materials), TECHNIC_MATERIAL_LENGTH):
         try:
-            reactions.append(Effect.objects.get(technic=technic, materials=sorted(materials)))
+            reaction = Reaction.objects.get(technic=technic, materials=sorted(materials))
+            effects.append(Effect.objects.get(reactions=reaction))
         except DoesNotExist:
             raise KeyError(f'Effect with technic {technic} and materials {", ".join(materials)} does not exist.')
 
-    return reactions
+    return effects
