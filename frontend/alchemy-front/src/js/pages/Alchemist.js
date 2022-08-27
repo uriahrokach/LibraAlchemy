@@ -113,7 +113,10 @@ const PotionsPage = ({materials, technic}) => {
           <br />
           <div style={{direction: "rtl"}}>לא קיים שיקוי עם האפקטים האלו.</div>
           <br />
-          <button className='normal-button' onClick={() => {setCreate(true);}}>צור שיקוי</button>
+          <div>
+            <button className='normal-button' onClick={() => {setCreate(true);}}>צור שיקוי</button>
+            <button className='normal-button' onClick={() => {setCreate(true);}}>אבחן שיקוי</button>
+          </div>
         </div>
       )}
       {asyncEffects.loading && asyncPotion.loading && "loading..."}
