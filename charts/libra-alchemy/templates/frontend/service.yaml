@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata: {{ $fullname := printf "%s-%s-frontend" .Release.Name .Chart.Name | trunc 63 | trimSuffix "-" }}
+  name: {{ $fullname }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+{{- with .Values.frontend}}
+spec:
+  type: {{ .service.type }}
+  ports:
+    - port: {{ .service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ $fullname }}
+{{- end }}

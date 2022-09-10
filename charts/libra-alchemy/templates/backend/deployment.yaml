@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {{ $fullname := printf "%s-%s-backend" .Release.Name .Chart.Name | trunc 63 | trimSuffix "-" }}
+  name: {{ $fullname }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+spec:
+{{- with .Values.backend }}
+  selector:
+    matchLabels:
+      app: {{ $fullname }}
+  replicas: {{ default 1 .replicas | int }}
+  template:
+    metadata:
+      labels:
+        app: {{ $fullname }}
+    spec:
+      containers:
+      {{- with .image }}
+      - name: backend
+        image: "{{ .repository }}:{{ .tag | default $.Chart.appVersion }}"
+        imagePullPolicy: {{ .pullPolicy }}
+      {{- end }}
+        env:
+          - name: "MONGO_USERNAME"
+            valueFrom:
+              secretKeyRef:
+                name: "{{ .config.mongo.existingSecret }}"
+                key: username
+          - name: "MONGO_PASSWORD"
+            valueFrom:
+              secretKeyRef:
+                name: "{{ .config.mongo.existingSecret }}"
+                key: password
+        volumeMounts:
+          - name: config
+            mountPath: /etc/libralchemy
+        ports:
+          - containerPort: {{ .service.port | int }}
+        readinessProbe:
+          httpGet:
+            path: /
+            port: {{ .service.port | int }}
+        resources:
+{{ toYaml .resources | indent 10 }}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ $fullname }}
+{{- end }}

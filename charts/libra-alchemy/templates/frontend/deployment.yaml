@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {{ $fullname := printf "%s-%s-frontend" .Release.Name .Chart.Name | trunc 63 | trimSuffix "-" }}
+  name: {{ $fullname }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+spec:
+{{- with .Values.frontend }}
+  selector:
+    matchLabels:
+      app: {{ $fullname }}
+  replicas: {{ default 1 .replicas | int }}
+  template:
+    metadata:
+      labels:
+        app: {{ $fullname }}
+    spec:
+      containers:
+      {{- with .image }}
+      - name: frontend
+        image: "{{ .repository }}:{{ .tag | default $.Chart.appVersion }}"
+        imagePullPolicy: {{ .pullPolicy }}
+      {{- end }}
+        env:
+          - name: REACT_APP_API_HOST
+            value: {{ .backendAddr }}
+        ports:
+          - containerPort: {{ .service.port | int }}
+        readinessProbe:
+          httpGet:
+            path: /
+            port: {{ .service.port | int }}
+        resources:
+{{ toYaml .resources | indent 10 }}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ $fullname }}
+{{- end }}
