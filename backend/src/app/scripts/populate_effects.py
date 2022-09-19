@@ -2,8 +2,10 @@ import pandas as pd
 from argparse import ArgumentParser
 from typing import List
 from mongoengine.errors import ValidationError, DoesNotExist
-from .database.models import Effect, Reaction, db
+from app.database.models import Effect, Reaction, db
 import csv
+
+TECHNICS = ["בישול", "ייבוש וכתישה", "התססה", "חליטה", "שריפה"]
 
 
 def populate_db(config_file, technics):
@@ -104,9 +106,10 @@ def get_parser():
     :return: the argument parser.
     """
     parser = ArgumentParser(description='Populates the mongodb according to an alchemy csv file.')
-    parser.add_argument('technics', nargs='+', help='the technics to handle.')
     parser.add_argument('-f', '--file', type=str, required=True, help='CSV file to parse.')
-    parser.add_argument('-u', '--db-url', type=str, required=True, help='The mongodb url')
+    parser.add_argument('-d', '--db-url', type=str, required=True, help='The mongodb url')
+    parser.add_argument('-u', '--username', type=str, default='', help='The mongodb username')
+    parser.add_argument('-p', '--password', type=str, default='', help='The mongodb password')
 
     return parser
 
@@ -117,8 +120,8 @@ def main():
     """
     parser = get_parser()
     args = parser.parse_args()
-    db.connect(host=args.db_url)
-    populate_db(args.file, args.technics)
+    db.connect(host=args.db_url, username=args.username, password=args.password)
+    populate_db(args.file, TECHNICS)
 
 
 if __name__ == '__main__':

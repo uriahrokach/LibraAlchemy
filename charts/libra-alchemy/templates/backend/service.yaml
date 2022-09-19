@@ -7,9 +7,12 @@ metadata: {{ $fullname := printf "%s-%s-backend" .Release.Name .Chart.Name | tru
 {{- with .Values.backend}}
 spec:
   type: {{ .service.type }}
+  {{- if .service.loadBalancerIP }}
+  loadBalancerIP: {{ .service.loadBalancerIP }}
+  {{- end }}
   ports:
     - port: {{ .service.port }}
-      targetPort: http
+      targetPort: {{ .service.port }}
       protocol: TCP
       name: http
   selector:

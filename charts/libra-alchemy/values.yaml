@@ -1,3 +1,7 @@
+global: 
+  image:
+    pullSecrets: ""
+
 frontend:
   replicas: 1
   image:
@@ -7,6 +11,7 @@ frontend:
   service:
     type: ClusterIP
     port: 80
+    LoadBalancerIP: ""
   backendAddr: http://libra-alchemy.local/api
   resources: {}
   
@@ -20,6 +25,7 @@ backend:
   service:
     type: ClusterIP
     port: 80
+    loadBalancerIP: ""
   resources: {}
 
   config:
@@ -29,8 +35,8 @@ backend:
       db: alchemy_test
       clustered: false
     alchemy:
-      technics: ["בישול", "ייבוש וכתישה", "התססה", "חליטה"]
-      materials: ["פחם", "מלח", "זכוכית וולקנית", "כסף", "לוטוס נהרות", "אספסת הכתרים", "חשופית השממה", "שרף"]
+      technics: ["בישול", "ייבוש וכתישה", "התססה", "חליטה", "שריפה"]
+      materials: ["פחם", "מלח", "זכוכית וולקנית", "כסף", "שרף", "אצות גביש", "קורי עכביש המעמקים", "טחב המערות", "טופר חתול"]
 
 ingress:
   enabled: false

@@ -18,7 +18,7 @@ data:
             "CORS": ["*"]
         },
         "db": {
-            {{ $protocol := ternaray .mongo.clustered "mongodb" "mongodb+srv"}}
+            {{ $protocol := ternary "mongodb+srv" "mongodb" .mongo.clustered }}
             "connection": "{{ $protocol }}://{{ .mongo.host }}/{{ .mongo.db }}" 
         }
     }

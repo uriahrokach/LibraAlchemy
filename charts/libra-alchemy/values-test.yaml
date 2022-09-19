@@ -1,0 +1,38 @@
+global:
+  image:
+    pullSecrets: 'regcred'
+
+backend:
+  replicas: 1
+  image:
+    pullPolicy: Always
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 200m
+      memory: 512Mi
+  config:
+    mongo: 
+      host: cluster0.fmnymnk.mongodb.net
+      db: alchemy
+      clustered: true
+  service:
+    type: LoadBalancer
+    loadBalancerIP: 34.118.84.231
+
+frontend:
+  replicas: 1
+  image:
+    pullPolicy: Always
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 200m
+      memory: 512Mi
+  service:
+    type: LoadBalancer
+    loadBalancerIP: 34.116.172.33

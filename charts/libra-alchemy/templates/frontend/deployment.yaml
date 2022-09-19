@@ -16,11 +16,11 @@ spec:
         app: {{ $fullname }}
     spec:
       containers:
-      {{- with .image }}
+        {{- with .image }}
       - name: frontend
-        image: "{{ .repository }}:{{ .tag | default $.Chart.appVersion }}"
+        image: "{{ .repository }}:{{ .tag | default $.Chart.AppVersion }}"
         imagePullPolicy: {{ .pullPolicy }}
-      {{- end }}
+        {{- end }}
         env:
           - name: REACT_APP_API_HOST
             value: {{ .backendAddr }}
@@ -32,8 +32,8 @@ spec:
             port: {{ .service.port | int }}
         resources:
 {{ toYaml .resources | indent 10 }}
-      volumes:
-        - name: config
-          configMap:
-            name: {{ $fullname }}
+      {{- if $.Values.global.image.pullSecrets }}
+      imagePullSecrets:
+        - name: {{ $.Values.global.image.pullSecrets }}
+      {{- end }}
 {{- end }}

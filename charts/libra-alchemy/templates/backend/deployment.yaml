@@ -18,20 +18,23 @@ spec:
       containers:
       {{- with .image }}
       - name: backend
-        image: "{{ .repository }}:{{ .tag | default $.Chart.appVersion }}"
+        image: "{{ .repository }}:{{ .tag | default $.Chart.AppVersion }}"
         imagePullPolicy: {{ .pullPolicy }}
       {{- end }}
         env:
           - name: "MONGO_USERNAME"
             valueFrom:
               secretKeyRef:
-                name: "{{ .config.mongo.existingSecret }}"
+                name: "{{ .config.mongo.credentialsSecret }}"
                 key: username
           - name: "MONGO_PASSWORD"
             valueFrom:
               secretKeyRef:
-                name: "{{ .config.mongo.existingSecret }}"
+                name: "{{ .config.mongo.credentialsSecret }}"
                 key: password
+          - name: "CONFIG_FILE"
+            value: "/etc/libralchemy/config.json"
+
         volumeMounts:
           - name: config
             mountPath: /etc/libralchemy
@@ -39,10 +42,14 @@ spec:
           - containerPort: {{ .service.port | int }}
         readinessProbe:
           httpGet:
-            path: /
+            path: /technics
             port: {{ .service.port | int }}
         resources:
 {{ toYaml .resources | indent 10 }}
+      {{- if $.Values.global.image.pullSecrets }}
+      imagePullSecrets:
+        - name: {{ $.Values.global.image.pullSecrets }}
+      {{- end }}
       volumes:
         - name: config
           configMap:

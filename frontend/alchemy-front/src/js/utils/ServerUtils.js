@@ -64,22 +64,5 @@ const getEffectByName = async (name) => {
     return response.data;
 }
 
-const getPotionTypesByEffects = async (effects) => {
-    const response = await axios.post(`${ENDPOINT}/brew/potion-type`, {
-        effects: effects,
-    }, {auth: authenticate});
-    return response.data;
-}
 
-const getPotionTypeByName = async (name) => {
-    const response = await axios.get(`${ENDPOINT}/potion-type/${name}`, {auth: authenticate})
-    return response.data;
-}
-
-const getPotionTypeByPotion = async (name) => {
-    const response = await axios.get(`${ENDPOINT}/potion-type/potion/${name}`, {auth: authenticate})
-    return response.data;
-}
-
-
-export {getMaterials, getTechnics, brewPotions, createPotion, deletePotion, getPotionRegex, getPotionByName, getEffects, getEffectByName, getPotionTypeByName, getPotionTypeByPotion, getPotionTypesByEffects};
+export {getMaterials, getTechnics, brewPotions, createPotion, deletePotion, getPotionRegex, getPotionByName, getEffects, getEffectByName};

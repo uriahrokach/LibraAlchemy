@@ -34,8 +34,8 @@ spec:
           {{- range $host.paths }}
           - path: {{ .path }}
             backend:
-              serviceName: {{ $fullName }}
-              servicePort: {{ $svcPort }}
+              serviceName:  {{ printf "%s-%s-%s" .Release.Name .Chart.Name $key | trunc 63 | trimSuffix "-" }}
+              servicePort: http
           {{- end }}
     {{- end }}
   {{- end }}
