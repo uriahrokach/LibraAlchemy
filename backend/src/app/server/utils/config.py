@@ -12,7 +12,7 @@ def get_config():
     :return: The config dictionary.
     """
     try:
-        env = os.environ['CONF']
+        env = os.environ['CONFIG_FILE']
     except KeyError:
         env = 'server/config/develop.json'
 

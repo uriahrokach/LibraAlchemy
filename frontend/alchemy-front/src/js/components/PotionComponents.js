@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 import ReactDOM from 'react-dom';
 import { useAsync } from 'react-async-hook';
@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import Tippy from '@tippy.js/react';
 
 import { InputController, TextAreaController } from './SearchComponents';
-import { deletePotion, getEffectByName, createPotion, getEffects } from '../utils/ServerUtils';
+import { deletePotion, getEffectByName, createPotion, getEffects, getMaterials, getTechnics } from '../utils/ServerUtils';
 
 import '../../css/PotionComps.css';
 import 'tippy.js/dist/tippy.css';
@@ -99,19 +99,57 @@ const EffectTag = (props) => {
     )
 }
 
-
-
-const PotionTypeTag = (props) => {
+const LazyEffectTag = (props) => {    
     return (
         <Tippy className='popup' content={
             <span>
-                <div>תיאור: {props.description}</div>
-                <div>{props.effects.map(effect => effect.name).join(', ')}</div>
+                {props.effect.reactions.map(ingredient => {
+                    return(
+                        <div className='popup-div'>
+                            {`מרכיבים: ${ingredient.materials.join(', ')}`}
+                            <br />
+                            {`טכניקה: ${ingredient.technic}`}
+                        </div>
+                    )
+                })}
+                {props.effect.enhance && <div className='popup-enhance'><b>אפקט מיוחד: {props.effect.enhanceDescription}</b></div>}
             </span>
-        }>
-            <div className="tag">{props.name}</div>
+            }>
+            <div className={ props.effect.enhance ? 'enhance-tag' : 'tag' }>{props.effect.name}</div>
         </Tippy>
     )
 }
 
-export { PotionDeleter, EffectTag, PotionMaker, PotionTypeTag }
+const EffectGroup = (props) => {
+    const asyncEffects = useAsync(getEffects, [props.materials, props.technic]);
+
+    return (
+        <div>
+            <b>{props.technic}</b>
+            <br />
+            {asyncEffects.loading && 'loading...'}
+            {asyncEffects.result && asyncEffects.result.map(effect => <LazyEffectTag effect={effect} />)}
+            <br />
+            <br />
+        </div>
+    )
+}
+
+
+const MaterialAnalyzer = (props) => {
+    const technics = useAsync(getTechnics, []);
+    
+    return (
+        <Modal>
+            <h3>מאבחן אלכימי </h3>
+            {technics.loading && 'loading...'}
+            {technics.result && technics.result.map(technic => {
+                return <EffectGroup materials={props.materials} technic={technic}/>
+            })}
+            <button className='normal-button' onClick={() => props.setActive(false)}>סגור</button>
+        </Modal>
+    )
+}
+
+
+export { PotionDeleter, EffectTag, PotionMaker, MaterialAnalyzer, LazyEffectTag}

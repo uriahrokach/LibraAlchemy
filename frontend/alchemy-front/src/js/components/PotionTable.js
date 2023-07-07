@@ -1,22 +1,9 @@
 import React, { useState } from 'react';
-import { useAsync } from 'react-async-hook';
-import { PotionDeleter, EffectTag, PotionTypeTag } from './PotionComponents';
-import { getPotionTypeByPotion } from '../utils/ServerUtils';
+import { PotionDeleter, EffectTag } from './PotionComponents';
 
 import '../../css/Table.css'
 import '../../css/PotionComps.css'
 import {ReactComponent as TrashIcon} from '../../icons/trash.svg';
-
-const PotionTypeList = (props) => {
-    const potionTypes = useAsync(getPotionTypeByPotion, [props.potion.name])
-    return (
-        <>
-            {potionTypes.loading && 'loading...'}
-            {potionTypes.error && potionTypes.error.response.data.detail}
-            {potionTypes.result && <>{potionTypes.result.map(potionType => <PotionTypeTag {...potionType} />)}</>}
-        </>
-    )
-}
 
 const PotionTable = (props) => {
     const [deletePotion, setPotion] = useState(null);
@@ -27,7 +14,6 @@ const PotionTable = (props) => {
                 <tr>
                     <th>שיקוי</th>
                     <th>השפעות</th>
-                    <th>סוגים</th>
                     <th>תיאור</th>
                     <th></th>
                 </tr>
@@ -36,7 +22,6 @@ const PotionTable = (props) => {
                         <tr>
                             <td>{potion.name}</td>
                             <td>{potion.effects.map((effect) => <EffectTag effect={effect}/>)}</td>
-                            <td><PotionTypeList potion={potion} /></td>
                             <td>{potion.description}</td>
                             <td><TrashIcon className='trash' onClick={() => setPotion(potion)}/></td>
                         </tr>
@@ -47,4 +32,4 @@ const PotionTable = (props) => {
     )
 }
 
-export default PotionTable
+export default PotionTable;

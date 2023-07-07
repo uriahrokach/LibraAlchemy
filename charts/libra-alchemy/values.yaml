@@ -1,0 +1,58 @@
+global: 
+  image:
+    pullSecrets: ""
+
+frontend:
+  replicas: 1
+  image:
+    repository: ghcr.io/uriahrokach/libra-alchemy/frontend
+    tag: ""
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 80
+    LoadBalancerIP: ""
+  backendAddr: http://libra-alchemy.local/api
+  resources: {}
+  
+    
+backend:
+  replicas: 1
+  image:
+    repository: ghcr.io/uriahrokach/libra-alchemy/backend
+    tag: ""
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 80
+    loadBalancerIP: ""
+  resources: {}
+
+  config:
+    mongo:
+      credentialsSecret: "mongo-cred"
+      host: localhost:27017
+      db: alchemy_test
+      clustered: false
+    alchemy:
+      technics: ["בישול", "ייבוש וכתישה", "התססה", "חליטה", "שריפה"]
+      materials: ["פחם", "מלח", "זכוכית וולקנית", "כסף", "שרף", "אצות גביש", "קורי עכביש המעמקים", "טחב המערות", "טופר חתול", "לוטוס נהרות", "אספסת הכתרים", "חשופית השממה"]
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    frontend:
+      host: libra-alchemy.local
+      paths:
+        - path: /
+    backend:
+      host: libra-alchemy.local
+      paths: 
+        - path: /api
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local

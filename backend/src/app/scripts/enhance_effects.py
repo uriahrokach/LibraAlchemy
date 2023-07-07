@@ -30,17 +30,19 @@ def enhance_effects(effects: Dict[str, str]):
 
 
 @click.command()
-@click.option('-c', '--config-file', help='The JSON config file containing the effects to enhance.')
-@click.option('-u', '--db-url', default="mongodb://localhost:27017/alchemy_test",
+@click.option('-f', '--config-file', help='The JSON config file containing the effects to enhance.')
+@click.option('-d', '--db-url', default="mongodb://localhost:27017/alchemy_test",
               help="The mongodb url to save the effects to")
-def main(config_file, db_url):
+@click.option('-u', '--username', default="", help="The mongodb username")
+@click.option('-p', '--password', default="", help="The mongodb password")
+def main(config_file, db_url, username, password):
     click.echo(f'Reading from file {config_file}...')
     with click.open_file(config_file, 'r', encoding='utf-8') as config_json_file:
         effects = config_json_file.read()
         effects = json.loads(effects)
 
     click.echo('Connecting to to the DB...')
-    db.connect(host=db_url)
+    db.connect(host=db_url, username=username, password=password)
 
     enhance_effects(effects)
 

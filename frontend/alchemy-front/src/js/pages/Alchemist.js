@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useAsync } from 'react-async-hook';
 
 import {DynamicMultipleChoice, DynamicRadioList} from '../components/SearchComponents'; 
-import { getMaterials, getTechnics, brewPotions, getEffects, getPotionTypesByEffects } from '../utils/ServerUtils';
+import { getMaterials, getTechnics, brewPotions, getEffects } from '../utils/ServerUtils';
 import PotionTable from '../components/PotionTable';
-import { EffectTag, PotionTypeTag } from '../components/PotionComponents';
+import { LazyEffectTag, MaterialAnalyzer } from '../components/PotionComponents';
 import { PotionMaker } from '../components/PotionComponents';
 
 
@@ -79,28 +79,22 @@ const PotionsPage = ({materials, technic}) => {
   useEffect(() => {
     setCurrentEffects(asyncEffects.result && asyncEffects.result.map(effect => effect.name))
   }, [asyncEffects.result])
-  console.log(currentEffects)
-  const asyncPotionType = useAsync(getPotionTypesByEffects, [currentEffects])
 
-  const [create, setCreate] = useState(false)
+  const [create, setCreate] = useState(false);
+  const [analyze, setAnalyze] = useState(false);
+
   return (
     <div>
       {create && <PotionMaker setActive={setCreate} materials={materials} technic={technic}/>}
-      
+      {analyze && <MaterialAnalyzer setActive={setAnalyze} materials={materials}/>}
+
       {asyncEffects.error && asyncEffects.error.response.status != 400 && <div> {`error: ${asyncEffects.error.response.data.detail}\n`} </div>}
       {asyncEffects.result && (<div>
         <div>השפעות</div>
         <br />
-        {asyncEffects.result.map(effect => <EffectTag effect={effect.name} />)}
+        {asyncEffects.result.map(effect => <LazyEffectTag effect={effect} />)}
       </div>)}
       <br />
-       {asyncPotionType.error && asyncPotionType.error.response.status != 422 && <div> {`error: ${asyncPotionType.error.response.data.detail}\n`} </div>}
-      {asyncPotionType.result && (<div>
-        <div> סוגי שיקויים </div>
-        <br/>
-        {asyncPotionType.result.map(potionType => <PotionTypeTag {...potionType} />)}
-        <br />
-      </div>)}
       
       {asyncPotion.error && asyncPotion.error.response.status != 400 && <div> {`error: ${asyncPotion.error.response.data.detail}\n`} </div>}
       {asyncPotion.result && asyncPotion.result.length !== 0 && (
@@ -115,7 +109,7 @@ const PotionsPage = ({materials, technic}) => {
           <br />
           <div>
             <button className='normal-button' onClick={() => {setCreate(true);}}>צור שיקוי</button>
-            <button className='normal-button' onClick={() => {setCreate(true);}}>אבחן שיקוי</button>
+            <button className='normal-button' onClick={() => {setAnalyze(true);}}>אבחן חומרים</button>
           </div>
         </div>
       )}

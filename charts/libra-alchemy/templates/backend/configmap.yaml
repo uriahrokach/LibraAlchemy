@@ -1,0 +1,25 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:  {{ $fullname := printf "%s-%s-backend" .Release.Name .Chart.Name | trunc 63 | trimSuffix "-" }}
+  name: {{ $fullname }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+{{- with .Values.backend.config }}
+data:
+  config.json: |
+    {
+        "alchemy": {
+            "materials": {{ toJson .alchemy.materials }},
+            "technics":  {{ toJson .alchemy.technics }}
+        },
+        "server": {
+            "address": "0.0.0.0",
+            "port": {{ $.Values.backend.service.port }},
+            "CORS": ["*"]
+        },
+        "db": {
+            {{ $protocol := ternary "mongodb+srv" "mongodb" .mongo.clustered }}
+            "connection": "{{ $protocol }}://{{ .mongo.host }}/{{ .mongo.db }}" 
+        }
+    }
+{{- end }}
