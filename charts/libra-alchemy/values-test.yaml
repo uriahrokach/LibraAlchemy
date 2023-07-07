@@ -16,7 +16,7 @@ backend:
   config:
     mongo: 
       host: cluster0.fmnymnk.mongodb.net
-      db: alchemy
+      db: alchemy-new
       clustered: true
   service:
     type: LoadBalancer
@@ -26,6 +26,7 @@ frontend:
   replicas: 1
   image:
     pullPolicy: Always
+    tag: 0.0.4
   resources:
     requests:
       cpu: 100m

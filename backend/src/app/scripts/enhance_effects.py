@@ -30,7 +30,7 @@ def enhance_effects(effects: Dict[str, str]):
 
 
 @click.command()
-@click.option('-c', '--config-file', help='The JSON config file containing the effects to enhance.')
+@click.option('-f', '--config-file', help='The JSON config file containing the effects to enhance.')
 @click.option('-d', '--db-url', default="mongodb://localhost:27017/alchemy_test",
               help="The mongodb url to save the effects to")
 @click.option('-u', '--username', default="", help="The mongodb username")
