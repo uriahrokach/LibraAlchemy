@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 
-const ENDPOINT = process.env.REACT_APP_API_HOST;
+const ENDPOINT = '/api';
+
 const authenticate =  {
     username: process.env.REACT_APP_USERNAME,
     password: process.env.REACT_APP_PASSWORD

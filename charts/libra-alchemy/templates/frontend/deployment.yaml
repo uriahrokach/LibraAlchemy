@@ -22,7 +22,7 @@ spec:
         imagePullPolicy: {{ .pullPolicy }}
         {{- end }}
         env:
-          - name: REACT_APP_API_HOST
+          - name: API_SERVER
             value: {{ .backendAddr }}
         ports:
           - containerPort: {{ .service.port | int }}
