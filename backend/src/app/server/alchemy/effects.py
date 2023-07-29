@@ -17,7 +17,7 @@ def get_effects_by_name(name: str) -> Dict[str, str]:
         effect = Effect.objects.get(name=name)
         return effect.json()
     except DoesNotExist:
-        raise KeyError(f'Effect {name} doesn\'t exist.')
+        raise KeyError(f"Effect {name} doesn't exist.")
 
 
 def get_effects_by_ingredients(materials: List[str], technic: str) -> List[Effect]:
@@ -32,9 +32,13 @@ def get_effects_by_ingredients(materials: List[str], technic: str) -> List[Effec
     effects: List[Effect] = []
     for materials in combinations(set(materials), TECHNIC_MATERIAL_LENGTH):
         try:
-            reaction = Reaction.objects.get(technic=technic, materials=sorted(materials))
+            reaction = Reaction.objects.get(
+                technic=technic, materials=sorted(materials)
+            )
             effects.append(Effect.objects.get(reactions=reaction))
         except DoesNotExist:
-            raise KeyError(f'Effect with technic {technic} and materials {", ".join(materials)} does not exist.')
+            raise KeyError(
+                f'Effect with technic {technic} and materials {", ".join(materials)} does not exist.'
+            )
 
     return effects

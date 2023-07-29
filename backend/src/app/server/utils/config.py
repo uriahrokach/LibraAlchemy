@@ -12,11 +12,11 @@ def get_config():
     :return: The config dictionary.
     """
     try:
-        env = os.environ['CONFIG_FILE']
+        env = os.environ["CONFIG_FILE"]
     except KeyError:
-        env = 'server/config/develop.json'
+        env = "server/config/develop.json"
 
-    with open(env, 'r', encoding='utf8') as conf_file:
+    with open(env, "r", encoding="utf8") as conf_file:
         config = conf_file.read()
     config = json.loads(config, object_hook=lambda d: SimpleNamespace(**d))
 

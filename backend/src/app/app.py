@@ -29,6 +29,6 @@ app.include_router(potion_router)
 app.include_router(potion_type_router)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(get_config().server.address, get_config().server.port)
     uvicorn.run(app, host=get_config().server.address, port=get_config().server.port)

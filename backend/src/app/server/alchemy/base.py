@@ -33,11 +33,13 @@ def validate(materials: List[str] = None, technic: str = None) -> None:
     """
     if materials is not None:
         if len(materials) > POTION_MATERIAL_MAX or len(materials) < POTION_MATERIAL_MIN:
-            raise ValueError(f'Number of materials must be between {POTION_MATERIAL_MIN} and {POTION_MATERIAL_MAX}')
+            raise ValueError(
+                f"Number of materials must be between {POTION_MATERIAL_MIN} and {POTION_MATERIAL_MAX}"
+            )
 
         for material in materials:
             if material not in config.alchemy.materials:
-                raise ValueError(f'Material {material} is not a valid material')
+                raise ValueError(f"Material {material} is not a valid material")
 
     if technic and technic not in config.alchemy.technics:
-        raise ValueError(f'Technic {technic} is not a valid technic')
+        raise ValueError(f"Technic {technic} is not a valid technic")

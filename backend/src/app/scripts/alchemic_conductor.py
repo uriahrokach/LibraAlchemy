@@ -9,7 +9,7 @@ connection = "mongodb://libra_alchemy-db-1:27017/alchemy_test"
 
 
 @click.command()
-@click.option('-m', '--materials', type=str, multiple=True)
+@click.option("-m", "--materials", type=str, multiple=True)
 def main(materials: List[str]):
     db.connect()
     for technic in TECHNICS:
@@ -21,11 +21,8 @@ def main(materials: List[str]):
                 print(mat1, mat2, technic)
             # effect = Effect.objects.get(reactions=[reaction])
             # print(f'{mat1}, {mat2}: {effect.name}')
-        print('\n')
+        print("\n")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-
-
-

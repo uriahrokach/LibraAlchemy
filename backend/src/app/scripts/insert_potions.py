@@ -20,9 +20,9 @@ def convert_excel_to_dict(filename: str) -> List[Dict[str, str]]:
     potions = []
     for row in data.iterrows():
         new_potion = {
-            'name': row[1]['שם'],
-            'description': row[1]['תיאור'],
-            'effects': row[1]['אפקטים'].split(', ')
+            "name": row[1]["שם"],
+            "description": row[1]["תיאור"],
+            "effects": row[1]["אפקטים"].split(", "),
         }
         potions.append(new_potion)
     return potions
@@ -46,12 +46,11 @@ def insert_potions(potions: List[Dict[str, Union[str, List]]]):
     :param potions: A dictionary of potions.
     """
     for potion_data in potions:
-
         try:
             potion = Potion(
-                name=potion_data.get('name'),
-                description=potion_data.get('description'),
-                effects=convert_effects(potion_data.get('effects'))
+                name=potion_data.get("name"),
+                description=potion_data.get("description"),
+                effects=convert_effects(potion_data.get("effects")),
             )
             potion.save()
             print(f'saved potion {potion_data.get("name")}')
@@ -60,24 +59,41 @@ def insert_potions(potions: List[Dict[str, Union[str, List]]]):
         except ValidationError as e:
             print(f'cannot save potion {potion_data.get("name")}: {e.args}')
 
+
 @click.command()
-@click.option('-d', '--db-url', default="mongodb://localhost:27017/alchemy_test",
-              help="The mongodb url to use")
-@click.option('-u', '--username', default=os.environ.get('MONGO_USERNAME'),
-              help="The mongodb username to use")
-@click.option('-p', '--password', default=os.environ.get('MONGO_PASSWORD'),
-              help="The mongodb password to use")
-@click.option('-f', '--potion-file', default='potions.xlsx',
-              help="The file to save the effects to.")
+@click.option(
+    "-d",
+    "--db-url",
+    default="mongodb://localhost:27017/alchemy_test",
+    help="The mongodb url to use",
+)
+@click.option(
+    "-u",
+    "--username",
+    default=os.environ.get("MONGO_USERNAME"),
+    help="The mongodb username to use",
+)
+@click.option(
+    "-p",
+    "--password",
+    default=os.environ.get("MONGO_PASSWORD"),
+    help="The mongodb password to use",
+)
+@click.option(
+    "-f",
+    "--potion-file",
+    default="potions.xlsx",
+    help="The file to save the effects to.",
+)
 def main(db_url, username, password, potion_file):
     db.connect(host=db_url, username=username, password=password)
-    click.echo("Extracting all potions from file...")    
+    click.echo("Extracting all potions from file...")
     potions = convert_excel_to_dict(potion_file)
     pprint(potions)
-    click.echo('saving data to db...')
+    click.echo("saving data to db...")
     insert_potions(potions)
-    click.echo(f'Done!')
+    click.echo(f"Done!")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

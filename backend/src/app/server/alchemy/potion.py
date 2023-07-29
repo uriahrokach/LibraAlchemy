@@ -21,7 +21,7 @@ def set_potion(name: str, materials: List[str], technic: str, description: str) 
     try:
         potion.save()
     except NotUniqueError:
-        raise ValueError(f'Potion {name} already exists.')
+        raise ValueError(f"Potion {name} already exists.")
 
 
 def get_potions_by_name_regex(name: str = None) -> List[dict]:
@@ -31,7 +31,7 @@ def get_potions_by_name_regex(name: str = None) -> List[dict]:
     :param name: the regex name of the potion.
     :return: The list of the potion.
     """
-    pattern = re.compile(f'.*{name}.*')
+    pattern = re.compile(f".*{name}.*")
     return [potion.json() for potion in Potion.objects(name=pattern)]
 
 
@@ -45,7 +45,7 @@ def get_potion_by_name(name: str) -> dict:
     try:
         potion = Potion.objects.get(name=name)
     except DoesNotExist:
-        raise KeyError(f'Potion {name} does not exist.')
+        raise KeyError(f"Potion {name} does not exist.")
 
     return potion.json()
 
@@ -65,17 +65,17 @@ def delete_potion(name: str) -> None:
 
 
 def validate_str_field(value: str, field: str):
-    if value == '':
-        raise ValueError(f'{field} cannot be empty.')
-    if value[0] == ' ' or value[-1] == ' ':
-        raise ValueError(f'{field} cannot start or end with a space.')
+    if value == "":
+        raise ValueError(f"{field} cannot be empty.")
+    if value[0] == " " or value[-1] == " ":
+        raise ValueError(f"{field} cannot start or end with a space.")
 
 
 def get_potions_by_type(potion_type: str):
     try:
         p_type = PotionType.objects.get(name=potion_type)
     except DoesNotExist:
-        raise KeyError(f'Potion type {potion_type} does not exist')
+        raise KeyError(f"Potion type {potion_type} does not exist")
 
     potions = Potion.objects(effects__all=p_type.effects)
     return [potion.json() for potion in potions]
