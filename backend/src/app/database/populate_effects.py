@@ -13,12 +13,12 @@ def populate_db(config_file, technics):
     :param config_file: The configuration file
     :param technics: The technics for the
     """
-    print(f'parsing data for technics {technics}...')
+    print(f"parsing data for technics {technics}...")
     tables = _parse_csv_to_tables(config_file, technics)
-    print('populating db...')
+    print("populating db...")
     materials = _convert_table_to_db(tables)
-    print('Done!')
-    print(f'materials: {materials}')
+    print("Done!")
+    print(f"materials: {materials}")
 
 
 def _parse_csv_to_tables(tables_file: str, header_list: List[str]):
@@ -28,7 +28,7 @@ def _parse_csv_to_tables(tables_file: str, header_list: List[str]):
     :param header_list: The list of headers in the csv file
     :param tables_file: The new file of the table.
     """
-    with open(tables_file, 'r', encoding='utf-8') as csv_file:
+    with open(tables_file, "r", encoding="utf-8") as csv_file:
         headers = {}
         reader = csv.reader(csv_file)
         for index, line in enumerate(reader):
@@ -43,9 +43,9 @@ def _parse_csv_to_tables(tables_file: str, header_list: List[str]):
         header = tables[t].iloc[0]
         tables[t] = tables[t][1:]
         tables[t].columns = header
-        tables[t].set_index('material', inplace=True)
-        tables[t].dropna(inplace=True, how='all')
-        tables[t].fillna('', inplace=True)
+        tables[t].set_index("material", inplace=True)
+        tables[t].dropna(inplace=True, how="all")
+        tables[t].fillna("", inplace=True)
 
     return tables
 
@@ -85,15 +85,17 @@ def _convert_table_to_db(tables: dict):
             for mat2 in tables[technic]:
                 try:
                     effect_string = tables[technic][mat1][mat2]
-                    if effect_string != '':
+                    if effect_string != "":
                         reaction = Reaction(materials=[mat1, mat2], technic=technic)
                         reaction.save()
                         effect = _resolve_effect_per_reaction(effect_string, reaction)
-                        print(f'Saved effect {effect.name}, materials: {mat1}, {mat2}, technic: {technic} ')
+                        print(
+                            f"Saved effect {effect.name}, materials: {mat1}, {mat2}, technic: {technic} "
+                        )
                 except KeyError as e:
-                    print(f'ignoring missing key in {technic} - {e}')
+                    print(f"ignoring missing key in {technic} - {e}")
                 except ValidationError as e:
-                    print(f'Ignoring Validation error for {technic} - {e}')
+                    print(f"Ignoring Validation error for {technic} - {e}")
     return materials
 
 
@@ -103,10 +105,16 @@ def get_parser():
 
     :return: the argument parser.
     """
-    parser = ArgumentParser(description='Populates the mongodb according to an alchemy csv file.')
-    parser.add_argument('technics', nargs='+', help='the technics to handle.')
-    parser.add_argument('-f', '--file', type=str, required=True, help='CSV file to parse.')
-    parser.add_argument('-u', '--db-url', type=str, required=True, help='The mongodb url')
+    parser = ArgumentParser(
+        description="Populates the mongodb according to an alchemy csv file."
+    )
+    parser.add_argument("technics", nargs="+", help="the technics to handle.")
+    parser.add_argument(
+        "-f", "--file", type=str, required=True, help="CSV file to parse."
+    )
+    parser.add_argument(
+        "-u", "--db-url", type=str, required=True, help="The mongodb url"
+    )
 
     return parser
 
@@ -121,5 +129,5 @@ def main():
     populate_db(args.file, args.technics)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

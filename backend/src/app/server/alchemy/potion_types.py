@@ -24,7 +24,7 @@ def get_type_by_name(name: str) -> dict:
     try:
         potion_type = PotionType.objects.get(name=name)
     except DoesNotExist:
-        raise KeyError(f'PotionType {name} does not exist.')
+        raise KeyError(f"PotionType {name} does not exist.")
 
     return potion_type.json()
 
@@ -59,6 +59,5 @@ def get_types_by_potion(potion: str) -> List[Dict[str, str]]:
     try:
         potion = Potion.objects.get(name=potion)
     except DoesNotExist:
-        raise KeyError(f'Potion {potion} does not exist.')
+        raise KeyError(f"Potion {potion} does not exist.")
     return get_types_by_effects([effect.name for effect in potion.effects])
-

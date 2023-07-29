@@ -14,7 +14,7 @@ class PotionBrew(BaseModel):
     technic: str
 
 
-@route.post('/brew')
+@route.post("/brew")
 def api_set_potion(ingredients: PotionBrew):
     try:
         validate(ingredients.materials, ingredients.technic)

@@ -18,17 +18,16 @@ services:
 
   frontend:
     restart: always
-    build: ./frontend/alchemy-front
+    build: ./frontend/
     image: libra-alchemy/frontend:0.0.1
     ports:
       - 8080:80
-    volumes:
-      - C:\Users\uriah\PycharmProjects\libra_alchemy\frontend\alchemy-front\build:/var/www/html
+    environment:
+      - API_SERVER='http://libra_alchemy-backend-1:5000'
 
 networks:
   default:
-    external:
-      name: alchemy
+    name: alchemy
 
 volumes:
   data:

@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../css/Navbar.css';
 import { useLocation } from 'react-router';
-import logo from '../../icons/Libra8.png';
+import logo from '../../icons/Libra9.png';
 import {GiMagicPotion, GiBookshelf, GiChemicalDrop} from 'react-icons/gi';
 
 const pageNames = {

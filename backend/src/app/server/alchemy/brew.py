@@ -36,9 +36,11 @@ def brew_potion(materials: List[str], technic: str) -> List[dict]:
     :return: A list of possible potions that can be brewed with these ingredients.
     """
     reactions = get_effects_by_ingredients(materials, technic)
-    potions = Potion.objects(__raw__={
-        'effects': {'$not': {'$elemMatch': {'$nin': [effect.id for effect in reactions]}}}
-    })
+    potions = Potion.objects(
+        __raw__={
+            "effects": {
+                "$not": {"$elemMatch": {"$nin": [effect.id for effect in reactions]}}
+            }
+        }
+    )
     return [potion.json() for potion in potions]
-
-

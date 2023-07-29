@@ -13,7 +13,7 @@ class EffectByIngredients(BaseModel):
     technic: str
 
 
-@route.get('/effect')
+@route.get("/effect")
 def api_get_effect(effect: str):
     try:
         return get_effects_by_name(effect)
@@ -21,7 +21,7 @@ def api_get_effect(effect: str):
         raise HTTPException(status_code=404, detail=str(e))
 
 
-@route.post('/effect/ingredients')
+@route.post("/effect/ingredients")
 def api_get_effects_by_ingredients(request: EffectByIngredients):
     try:
         validate(request.materials, request.technic)
