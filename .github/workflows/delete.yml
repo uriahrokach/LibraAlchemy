@@ -1,4 +1,4 @@
-name: Deploy Alchemy System
+name: Delete Alchemy System
 
 on: workflow_dispatch
 
