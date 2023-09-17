@@ -1,11 +1,12 @@
-import axios from 'axios'
+import axios from 'axios';
+import fileDownload from 'js-file-download';
 
 
-const ENDPOINT = '/api';
+const ENDPOINT = import.meta.env.PROD  ? '/api' : 'http://localhost:5000';
 
 const authenticate =  {
-    username: process.env.REACT_APP_USERNAME,
-    password: process.env.REACT_APP_PASSWORD
+    username: import.meta.env.USERNAME,
+    password: import.meta.env.PASSWORD
 }
 
 const getMaterials = async () => {
@@ -65,5 +66,25 @@ const getEffectByName = async (name) => {
     return response.data;
 }
 
+const downloadPotionList = async (regex) => {
+    const response = await axios.get(`${ENDPOINT}/download/potions?regex=${regex}`, {
+        auth: authenticate,
+        responseType: 'blob'
+    })
+    fileDownload(response.data, 'potions.xls');
+    
+}
 
-export {getMaterials, getTechnics, brewPotions, createPotion, deletePotion, getPotionRegex, getPotionByName, getEffects, getEffectByName};
+
+export {
+    getMaterials, 
+    getTechnics, 
+    brewPotions, 
+    createPotion, 
+    deletePotion, 
+    getPotionRegex, 
+    getPotionByName, 
+    getEffects, 
+    getEffectByName,
+    downloadPotionList
+};

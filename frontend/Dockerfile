@@ -10,7 +10,7 @@ RUN npm run build
 FROM nginx:latest
 
 RUN mkdir -p /var/www/html
-COPY --from=base /frontend/build/ /var/www/html
+COPY --from=base /frontend/dist/ /var/www/html
 
 RUN rm -rf /etc/nginx/conf.d/*
 COPY alchemy.nginx.conf /etc/nginx/templates/alchemy.conf.template

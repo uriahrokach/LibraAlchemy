@@ -30,7 +30,6 @@
     background-color: #fe0001;
 }
 
-
 .tag {
     color: azure;
     border: azure;
@@ -43,6 +42,14 @@
     width: fit-content;
     display: inline-block;
     cursor: pointer;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .tag:hover {

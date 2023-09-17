@@ -1,4 +1,5 @@
-from app.database.models import db, Potion
+import mongoengine as db
+from alchemy_backend.database.models import Potion
 import click
 import os
 import pandas as pd

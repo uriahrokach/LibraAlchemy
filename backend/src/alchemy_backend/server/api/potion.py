@@ -38,7 +38,8 @@ def api_set_potion(potion: PotionSet):
 
 @route.get("/potion")
 def api_get_potions_by_name_regex(regex: Optional[str] = ""):
-    return get_potions_by_name_regex(regex)
+    potions = get_potions_by_name_regex(regex)
+    return [potion.json() for potion in potions]
 
 
 @route.get("/potion/{name}")

@@ -24,7 +24,7 @@ def set_potion(name: str, materials: List[str], technic: str, description: str) 
         raise ValueError(f"Potion {name} already exists.")
 
 
-def get_potions_by_name_regex(name: str = None) -> List[dict]:
+def get_potions_by_name_regex(name: str = None) -> List[Potion]:
     """
     Gets the potions who's names contain the regex name given.
 
@@ -32,7 +32,7 @@ def get_potions_by_name_regex(name: str = None) -> List[dict]:
     :return: The list of the potion.
     """
     pattern = re.compile(f".*{name}.*")
-    return [potion.json() for potion in Potion.objects(name=pattern)]
+    return [potion for potion in Potion.objects(name=pattern)]
 
 
 def get_potion_by_name(name: str) -> dict:
