@@ -1,0 +1,6 @@
+uvicorn
+mongoengine
+fastapi
+dnspython
+pyexcel
+pyexcel_xls

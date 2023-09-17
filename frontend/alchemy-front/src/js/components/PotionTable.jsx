@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { PotionDeleter, EffectTag } from './PotionComponents';
 
-import '../../css/Table.css'
-import '../../css/PotionComps.css'
-import {ReactComponent as TrashIcon} from '../../icons/trash.svg';
+import '../../css/Table.css';
+import '../../css/PotionComps.css';
+import { ReactComponent as TrashIcon } from '../../icons/trash.svg';
+
 
 const PotionTable = (props) => {
     const [deletePotion, setPotion] = useState(null);

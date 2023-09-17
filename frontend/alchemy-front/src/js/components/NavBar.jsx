@@ -5,7 +5,7 @@ import logo from '../../icons/Libra9.png';
 import {GiMagicPotion, GiBookshelf, GiChemicalDrop} from 'react-icons/gi';
 
 const pageNames = {
-  '/': {name: 'רקיחת שיקוי', icon: <GiMagicPotion size='40px' />},
+  '/': {name: 'שיקוי קיים', icon: <GiMagicPotion size='40px' />},
   '/potion-list': {name: 'רשימת השיקויים', icon: <GiBookshelf size='40px' />}, 
   '/create-potion': {name: 'יצירת שיקוי', icon: <GiChemicalDrop size='40px' />},
 }
@@ -23,7 +23,7 @@ const Navbar = () => {
         </div>
         <div className='navbar-nav'>
           <a href='/create-potion'>יצירת שיקוי</a>
-          <a href='/'>רקיחת שיקוי</a>
+          <a href='/'>שיקוי קיים</a>
           <a href='/potion-list'>רשימת השיקויים</a>
         </div>
       </div>

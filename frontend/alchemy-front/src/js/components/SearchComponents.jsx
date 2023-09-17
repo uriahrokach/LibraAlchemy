@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import '../../css/PotionComps.css'
-import {ReactComponent as TrashIcon} from '../../icons/trash.svg';
+import TrashIcon from '../../icons/trash.svg';
 
 const LabeledElement = (props) => {
     return (
