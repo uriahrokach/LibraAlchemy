@@ -1,4 +1,4 @@
-from app.database.models import db, Effect
+from alchemy_backend.database.models import db, Effect
 from typing import List, Dict
 from mongoengine import DoesNotExist
 import click
