@@ -1,11 +1,12 @@
 global:
   image:
-    pullSecrets: 'regcred'
+    pullSecrets: 'reg-cred'
 
 backend:
-  replicas: 3
+  replicas: 2
   image:
     pullPolicy: Always
+    tag: master
   resources:
     requests:
       cpu: 100m
@@ -16,14 +17,17 @@ backend:
   config:
     mongo: 
       host: cluster0.fmnymnk.mongodb.net
-      db: alchemy
+      db: libra9
       clustered: true
   service:
     type: LoadBalancer
-    loadBalancerIP: 34.118.84.231
+    loadBalancerIP: 34.77.106.78
 
 frontend:
-  replicas: 3
+  replicas: 2
+  backendAddr: "http://libra-alchemy-libra-alchemy-backend.libra-alchemy.svc"
+  image:
+    tag: master  
   resources:
     requests:
       cpu: 100m
@@ -33,4 +37,4 @@ frontend:
       memory: 512Mi
   service:
     type: LoadBalancer
-    loadBalancerIP: 34.116.172.33
+    loadBalancerIP: 34.76.95.73

@@ -4,9 +4,12 @@ metadata: {{ $fullname := printf "%s-%s-backend" .Release.Name .Chart.Name | tru
   name: {{ $fullname }}
   labels:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+  annotations:
+    cloud.google.com/l4-rbs: "enabled"
 {{- with .Values.backend}}
 spec:
   type: {{ .service.type }}
+  externalTrafficPolicy: Cluster
   {{- if .service.loadBalancerIP }}
   loadBalancerIP: {{ .service.loadBalancerIP }}
   {{- end }}

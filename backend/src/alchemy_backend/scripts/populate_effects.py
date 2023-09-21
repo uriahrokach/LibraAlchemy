@@ -2,10 +2,10 @@ import pandas as pd
 from argparse import ArgumentParser
 from typing import List
 from mongoengine.errors import ValidationError, DoesNotExist
-from app.database.models import Effect, Reaction, db
+from alchemy_backend.database.models import Effect, Reaction, db
 import csv
 
-TECHNICS = ["בישול", "ייבוש וכתישה", "התססה", "חליטה", "שריפה"]
+TECHNICS = ["בישול", "ייבוש וכתישה", "התססה", "חליטה", "שריפה", "סחיטה"]
 
 
 def populate_db(config_file, technics):
@@ -87,6 +87,7 @@ def _convert_table_to_db(tables: dict):
             for mat2 in tables[technic]:
                 try:
                     effect_string = tables[technic][mat1][mat2]
+                    print(effect_string)
                     if effect_string != "":
                         reaction = Reaction(materials=[mat1, mat2], technic=technic)
                         reaction.save()

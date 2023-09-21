@@ -145,6 +145,8 @@
     bottom: 0;
     margin: auto;
 
+    padding: 100px;
+
     color: azure;
     background-color: #666;
     height: fit-content;

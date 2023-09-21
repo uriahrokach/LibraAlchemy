@@ -2,7 +2,7 @@ import axios from 'axios';
 import fileDownload from 'js-file-download';
 
 
-const ENDPOINT = import.meta.env.PROD  ? '/api' : 'http://localhost:5000';
+const ENDPOINT = import.meta.env.PROD  ? '/api' : 'http://34.77.106.78';
 
 const authenticate =  {
     username: import.meta.env.USERNAME,
